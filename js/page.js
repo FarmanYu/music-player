@@ -1,26 +1,23 @@
 (function (exports) {
 	var supportFormat = /(.mp3|.ogg|.wma|.ape)$/;
 	var pageController = {};
+    var musicIndex = 0;
 	pageController.selFlie = function () {
 		var fs = $("#selFile")[0].files;
 		if (fs.length > 0) {
-			$("#fList").empty();
-			Player.clearList();
-			var idxs = 0;
+	//		$("#fList").empty();
+	//		Player.clearList();
 
 			for (var i = 0; i < fs.length; i++) {
 				var file = fs[i];
 				if (file.name.match(supportFormat)) {
-					var li = $("<li id='" + (idxs++) + "'>" + file.name.replace(supportFormat, "") + "</li>");
-
-					li.bind("dblclick", function () {
-						pageController.play($(this).attr("id"));
-					});
-
 					var fURL = Util.createURL(file);
-					Player.add(file.name, fURL);
-
-					$("#fList").append(li);
+                    var item = {name:file.name, url:fURL};
+                    //同步操作,写本地local.再执行其他操作
+                    if(DataStorge.add(item)){
+                        
+                        pageController.addMusicItem(item);
+                    }
 				}
 			}
 
@@ -29,7 +26,16 @@
 			}
 		}
 	}
-
+    
+    pageController.addMusicItem = function(item){
+        Player.add(item);
+        var li = $("<li id='" + (musicIndex++) + "'>" + item.name.replace(supportFormat, "") + "</li>");
+        li.bind("dblclick", function () {
+            pageController.play($(this).attr("id"));
+        });                        
+        $("#fList").append(li);
+    }
+    
 	pageController.setMusicCurrent = function (song) {
 		if (song != null) {
 			var songName = song.name.replace(supportFormat, "");
@@ -161,6 +167,15 @@
 			self.setMusicCurrent(song);
 		});
 	}
+    
+    pageController.bindReadLocal = function () {
+		var list = [] ;//DataStorge.getList();
+        var self = this;
+        list.forEach(function(item){
+            self.addMusicItem(item);
+        });
+	}
+    
     pageController.bindVolume = function(){
         $("#vol").click(function(e){
             var oX = e.offsetX;
@@ -179,6 +194,7 @@
 			pageController.bindPlayError();
 			pageController.bindProgress();
             pageController.bindVolume();
+            pageController.bindReadLocal();
 		}
 	};
 })(this);

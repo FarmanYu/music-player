@@ -1,4 +1,5 @@
 (function (exports) {
+    var SampleSize = 1024;
 	var Player = {
 		audioObj : null,
 		currentId : -1,
@@ -15,11 +16,8 @@
 			this.currentId = -1;
 		},
 
-		add : function (name, url) {
-			this.playList.push({
-				"name" : name,
-				"url" : url
-			});
+		add : function (data) {
+			this.playList.push(data);
 		},
 
 		remove : function (name) {
