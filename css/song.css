@@ -36,7 +36,7 @@ abbr,acronym {
 
 body{
     font-family:"微软雅黑";
-    padding:40px;
+    overflow-x:hidden;
 }
 #contorl{
     padding-top:5px;
@@ -173,11 +173,11 @@ body{
     cursor:pointer;
 }
 #fList li:hover{
-    background-color:rgba(255,255,255,0.2);
     color:#fff;
-} 
+    background-color:#3a6284;
+}
 #fList li.current,#fList li.current:hover{
-    background-color:rgba(255,255,255,0.3);
+    background-image: -webkit-gradient(linear, 0 0, 100% 0, color-stop(.01, #197391), color-stop(.3, #197391), color-stop(.3, #3a6284), color-stop(.99, #3a6284));
     color:#fff;
 }
 .toolbar{
@@ -213,6 +213,7 @@ body{
     color:#fff;
     background-color:#8897a7;
     padding:0 20px;
-    width:100px;
+    width:150px;
     display:none;
+    text-align:center;
 }

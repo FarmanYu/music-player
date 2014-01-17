@@ -39,6 +39,7 @@
 <div id="msg"></div>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/util.js"></script>
+<script type="text/javascript" src="js/storage.js"></script>
 <script type="text/javascript" src="js/box.js"></script>
 <script type="text/javascript" src="js/msg.js"></script>
 <script type="text/javascript" src="js/player.js"></script>
@@ -47,7 +48,66 @@
 <script type="text/javascript">
 $(document).ready(function(){
     pager.init();
+    $.fn.snow({
+        minSize: 5, //雪花的最小尺寸
+        maxSize: 50, //雪花的最大尺寸
+        newOn: 400,     //雪花出现的频率 这个数值越小雪花越多
+        flakeColor: "#FFFFFF", //控制颜色
+        showTime: 30  //显示的时长，后即停止 （秒）
+    });
 });
+(function($) {
+    $.fn.snow = function(options) {
+        var $flake = $('<div />').css({
+            'position': 'absolute',
+            'top': '-50px'
+        }).html('&#10052'),
+            documentHeight = $(document).height(),
+            documentWidth = $(document).width(),
+            defaults = {
+                minSize: 10, //雪花的最小尺寸
+                maxSize: 20, //雪花的最大尺寸
+                newOn: 500, //雪花出现的频率
+                flakeColor: "#FFFFFF",
+                showTime: 30
+            },
+
+            options = $.extend({}, defaults, options);
+
+        var interval = setInterval(sn, options.newOn);
+        var sec = 0;
+        setInterval(function(){
+            sec++;
+        },1000);
+        
+        function sn() {
+            var startPositionLeft = Math.random() * documentWidth - 100,
+                startOpacity = 0.5 + Math.random(),
+                sizeFlake = options.minSize + Math.random() * options.maxSize,
+                endPositionTop = documentHeight - 40,
+                endPositionLeft = startPositionLeft - 100 + Math.random() * 500,
+                durationFall = documentHeight * 10 + Math.random() * 5000;
+            $flake.clone().appendTo('body').css({
+                left: startPositionLeft,
+                opacity: startOpacity,
+                'font-size': sizeFlake,
+                color: options.flakeColor
+            }).animate({
+                top: endPositionTop,
+                left: endPositionLeft,
+                opacity: 0.8
+            }, durationFall, 'linear', function() {
+                $(this).remove()
+            });
+
+          /*  if(sec >= options.showTime) {
+                clearInterval(interval);
+            };*/
+
+        }
+
+    };
+})(jQuery);
 </script>
 </body>
 </html>
