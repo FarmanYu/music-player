@@ -1,2 +1,2 @@
-#ÒôÀÖ²¥·ÅºÐ
-Ö§³Ö²¥·Å±¾µØÒôÀÖÎÄ¼þ£¬»¶Ó­Ê¹ÓÃ½¨Òé!
+#html5éŸ³ä¹æ’­æ”¾å™¨
+è¯•ç”¨åœ°å€ï¼š<http://farman.sinaapp.com/static/player-box/>
